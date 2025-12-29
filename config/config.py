@@ -40,4 +40,7 @@ class config:
     Card_holder_name = "Test User"
     Country_name = "India"
     Zip_code = "380009"
-    
+
+    # Change Password variables
+    User_password = "Test@123"
+    User_confirm = "Test@123"

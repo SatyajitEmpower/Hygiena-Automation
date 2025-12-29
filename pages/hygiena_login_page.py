@@ -18,3 +18,6 @@ class LoginPage(BasePage):
         # Wait for dashboard to load
         self.page.wait_for_url(config.DASHBOARD_URL, timeout=10000)
         self.page.wait_for_timeout(20000)  # Wait 2 seconds for dashboard to fully load
+
+        # Print confirmation after successful login
+        print("Login successful.")

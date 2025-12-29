@@ -28,3 +28,6 @@ class UesrRemove(BasePage):
         delete_btn.click()
         self.wait_for_network()
         self.page.wait_for_timeout(3000)
+
+        # Print confirmation after successful completion
+        print("User deletion process initiated successfully.")

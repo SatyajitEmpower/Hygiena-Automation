@@ -68,3 +68,6 @@ class UserUpdate(BasePage):
         # Wait for completion
         self.wait_for_network()
         time.sleep(5)
+
+        # Print confirmation after successful completion
+        print("User update process completed successfully.")

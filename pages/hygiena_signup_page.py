@@ -133,3 +133,6 @@ class SignupPage:
         # Submit
         self.page.click(self.CreateAccountBtn)
         self.page.wait_for_timeout(2000)
+
+        # Print confirmation after successful signup
+        print("Signup process completed successfully.")

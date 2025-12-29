@@ -46,5 +46,8 @@ class CourseStart(BasePage):
         
         self.page.wait_for_timeout(5000)  # Wait for course to load
 
+        # Print confirmation after successful completion
+        print("Course started or resumed successfully.")
+
     
         
