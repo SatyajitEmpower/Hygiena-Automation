@@ -44,3 +44,6 @@ class config:
     # Change Password variables
     User_password = "Test@123"
     User_confirm = "Test@123"
+
+    OwnerUser_username = "Sambhu02"
+    OwnerUser_password = "Test@123"

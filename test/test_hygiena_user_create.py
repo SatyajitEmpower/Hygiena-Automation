@@ -11,4 +11,4 @@ def test_user_create(page):
     user_page = UserManagementCreate(page)
     user_page.click_user_management()
     user_page.click_add_user()
-    user_page.UserCreate("John", "Doe", "sambhu01", "sambhu@yopmail.com")
+    user_page.UserCreate("Johns", "Does", "sambhu02", "sambhu02@yopmail.com")

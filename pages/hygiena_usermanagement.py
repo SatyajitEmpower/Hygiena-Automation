@@ -2,7 +2,6 @@ from playwright.sync_api import Page
 from pages.base_page import BasePage
 import time
 
-
 class UserManagementCreate(BasePage):
     """Playwright Page Object for User Management - Create User"""
 

@@ -14,7 +14,7 @@ def test_user_create(page):
     user_page.click_elearning()
     user_page.click_course_tab()
     user_page.select_both_courses()
-    time.sleep(10)  # wait for UI to update
+    time.sleep(1000)  # wait for UI to update
 
     # user_page.select_fmt_course()
     # proceed to purchase to reveal quantity controls

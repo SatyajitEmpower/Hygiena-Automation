@@ -78,7 +78,7 @@ class CourseAssign(BasePage):
             {"selector": checkbox_xpath},
         )
         
-        self.page.wait_for_timeout(500)
+        self.page.wait_for_timeout(5000)
         
         # Verify checkbox is checked
         expect(cb).to_be_checked()
@@ -90,16 +90,16 @@ class CourseAssign(BasePage):
 
     def select_both_courses(self):
         # Click FHT course card
-        fht_card = self.page.locator(self.Select_FHT_Course).first
-        fht_card.scroll_into_view_if_needed()
-        fht_card.click()
-        self.page.wait_for_timeout(500)
+        fht_card = self.page.locator(self.Select_FHT_Course)
+        fht_card.check(force=True)
+        expect(fht_card).to_be_checked()
+        self.page.wait_for_timeout(1000)
         
         # Click FMT course card
-        fmt_card = self.page.locator(self.Select_FMT_Course).first
-        fmt_card.scroll_into_view_if_needed()
-        fmt_card.click()
-        self.page.wait_for_timeout(500)
+        fmt_card = self.page.locator(self.Select_FMT_Course)
+        fmt_card.check(force=True)
+        expect(fmt_card).to_be_checked()
+        self.page.wait_for_timeout(1000)
 
     def select_fht_course_quantity(self, quantity):
         self._set_quantity(self.FHT_Course_quantity, quantity)
