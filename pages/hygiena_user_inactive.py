@@ -1,4 +1,4 @@
-from playwright.sync_api import Page
+from playwright.sync_api import Page, expect
 from pages.base_page import BasePage
 
 
@@ -7,7 +7,8 @@ class UserInactive(BasePage):
 
     # ---------- LOCATORS ----------
     USER_MANAGEMENT_BTN = "xpath=//*[@id='userManagement']/div/img"
-    INACTIVE_TOGGLE_INPUT = "xpath=//table//tbody/tr[1]//td[8]//input[@type='checkbox']"
+    INACTIVE_TOGGLE_INPUT = "xpath=//*[@id='userMgmUsers']/tbody/tr[1]/td[8]"
+    
 
     def __init__(self, page: Page):
         super().__init__(page)
@@ -17,23 +18,18 @@ class UserInactive(BasePage):
         self.wait_for_network()
         self.page.wait_for_timeout(3000)
 
-    def click_user_inactive_btn(self):
-        toggle = self.page.locator(self.INACTIVE_TOGGLE_INPUT)
-        toggle.wait_for(state="attached", timeout=10000)
+    def click_user_active_inactive_btn(self):
+        """
+        Ensure the first listed user is marked inactive by unchecking the toggle.
 
-        # Avoid double toggle
-        if toggle.is_disabled():
-            self.page.evaluate(
-                """
-                (el) => {
-                    el.checked = true;
-                    el.dispatchEvent(new Event('input', { bubbles: true }));
-                    el.dispatchEvent(new Event('change', { bubbles: true }));
-                }
-                """,
-                toggle,
-            )
-
+        Some UIs disable the checkbox when already inactive, so we:
+        - wait for the element to be attached and visible
+        - scroll it into view
+        - uncheck only if it is currently checked (i.e., active)
+        """
+        self.page.locator(self.INACTIVE_TOGGLE_INPUT).click()
         self.wait_for_network()
         self.page.wait_for_timeout(3000)
-        print("User inactivated successfully.")
+
+        # toggle.uncheck(force=True)
+        

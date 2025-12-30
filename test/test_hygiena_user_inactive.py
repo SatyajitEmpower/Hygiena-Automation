@@ -9,4 +9,4 @@ def test_user_inactive(page):
 
     user_page = UserInactive(page)
     user_page.click_user_management()
-    user_page.click_user_inactive_btn()
+    user_page.click_user_active_inactive_btn()

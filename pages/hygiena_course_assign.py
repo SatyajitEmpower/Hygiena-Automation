@@ -3,6 +3,7 @@ from playwright.sync_api import Page
 from datetime import datetime
 from playwright.sync_api import expect
 from pages.base_page import BasePage
+import time
 
 class CourseAssign(BasePage):
     """Playwright Page Object for course purchase + user assignment (DevExtreme)."""
@@ -12,28 +13,26 @@ class CourseAssign(BasePage):
     Course_btn = "#tab-courses"
 
     # ---------- COURSE SELECTION ----------
-    FHT_Checkbox = '#course-card-food_handler_training input[type="checkbox"]'
-    FMT_Checkbox = '#course-card-food_manager_training input[type="checkbox"]'
-    Select_FHT_Course = '#course-card-food_handler_training'
-    Select_FMT_Course = '#course-card-food_manager_training'
+    # FHT_Checkbox = '#course-card-food_handler_training input[type="checkbox"]'
+    # FMT_Checkbox = '#course-card-food_manager_training input[type="checkbox"]'
+    # Select_FHT_Course = '#course-card-food_handler_training'
+    # Select_FMT_Course = '#course-card-food_manager_training'
     
     # ---------- Select Course Quantity (input + spinner fallbacks) ----------
     # Prefer input selectors; fallbacks will be tried in code if these are not present
-    FHT_Course_quantity = "xpath=//table//tbody/tr[1]//td[4]//input"
-    FMT_Course_quantity = "xpath=//table//tbody/tr[2]//td[4]//input"
+    FHT_Course_quantity = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[2]/div/div[1]/div[2]/div[3]/div[2]/div/dx-number-box/div/div[2]/div[2]/div[1]"
+    FMT_Course_quantity = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[2]/div/div[2]/div[2]/div[3]/div[2]/div/dx-number-box/div/div[2]/div[2]/div[1]/div"
     # Spinner controls (DevExtreme numberbox spin up icon)
-    FHT_Course_spin = "xpath=//table//tbody/tr[1]//td[4]//div[contains(@class,'dx-numberbox-spin-up-icon')]"
-    FMT_Course_spin = "xpath=//table//tbody/tr[2]//td[4]//div[contains(@class,'dx-numberbox-spin-up-icon')]"
-
+    # FHT_Course_spin = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[2]/div/div[1]/div[2]/div[3]/div[2]/div/dx-number-box/div/div[2]/button"
+    # FMT_Course_spin = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[2]/div/div[1]/div[2]/div[3]/div[2]/div/dx-number-box/div/div[2]/button"
     Buy_now_btn = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[3]/button"
     Complete_purchase_btn = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[3]/button/span"
 
-    Assign_FHT_user = "xpath=//table//tbody/tr[1]//td[2]//input[@placeholder='Select User']"
-    Assign_FMT_user = "xpath=//table//tbody/tr[2]//td[2]//input[@placeholder='Select User']"
+    Assign_FHT_user = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[2]/table/tbody/tr[1]/td[2]/dx-select-box/div[1]/div/div[1]/input"
+    Assign_FMT_user = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[2]/table/tbody/tr[2]/td[2]/dx-select-box/div[1]/div/div[1]/input"
 
-    Due_date_FHT = "xpath=//table//tbody/tr[1]//td[3]//input"
-    Due_date_FMT = "xpath=//table//tbody/tr[2]//td[3]//input"
-
+    Due_date_FHT = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[2]/table/tbody/tr[1]/td[3]//input"
+    Due_date_FMT = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[2]/table/tbody/tr[2]/td[3]//input"
     Card_number_input = "#cardNumber"
     Expiry_date_input = "#cardExpiry"
     CVC_input = "#cardCvc"
@@ -47,6 +46,13 @@ class CourseAssign(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
 
+    # ---------- HELPERS ----------
+    def select_user_by_course(self, locator, text):
+        time.sleep(1)
+        dropdown = self.page.locator(locator)
+        dropdown.select_option(label=text)
+        time.sleep(1)
+
     # ---------- NAVIGATION ----------
     def click_elearning(self):
         self.page.locator(self.ELearning_btn).click()
@@ -58,97 +64,151 @@ class CourseAssign(BasePage):
         self.wait_for_network()
         self.page.wait_for_timeout(300)
 
-    def _ensure_checked_by_xpath(self, checkbox_xpath: str, card_xpath: str = None):
-        cb = self.page.locator(checkbox_xpath).first
-        cb.wait_for(state="attached", timeout=10000)
-        cb.scroll_into_view_if_needed()
+    # def _check_course(self, checkbox_selector: str, card_selector: str | None = None):
+    #     """Ensure the course checkbox ends up checked; try click → card click → JS fallback."""
+    #     checkbox = self.page.locator(checkbox_selector).first
+    #     checkbox.wait_for(state="attached", timeout=15000)
+    #     checkbox.scroll_into_view_if_needed()
 
-        # Use JavaScript to check the checkbox and trigger events
-        self.page.evaluate(
-            """
-            ({ selector }) => {
-                const el = document.querySelector(selector);
-                if (!el) throw 'Checkbox not found';
+    #     # 1) Try native check
+    #     try:
+    #         checkbox.check(force=True)
+    #     except Exception:
+    #         pass
+
+    #     # 2) If still not checked, try clicking the card container
+    #     try:
+    #         if not checkbox.is_checked():
+    #             if card_selector:
+    #                 self.page.locator(card_selector).click(force=True)
+    #     except Exception:
+    #         pass
+
+    #     # 3) If still not checked, set via JS to trigger change events
+    #     if not checkbox.is_checked():
+    #         self.page.evaluate(
+    #             """
+    #             (selector) => {
+    #                 const el = document.querySelector(selector);
+    #                 if (!el) throw 'Checkbox not found';
+    #                 el.checked = true;
+    #                 el.dispatchEvent(new Event('input', { bubbles: true }));
+    #                 el.dispatchEvent(new Event('change', { bubbles: true }));
+    #                 el.dispatchEvent(new Event('click', { bubbles: true }));
+    #             }
+    #             """,
+    #             checkbox_selector,
+    #         )
+
+    #     expect(checkbox).to_be_checked()
+
+    # def _ensure_checked_by_xpath(self, checkbox_xpath: str, card_xpath: str = None):
+    #     cb = self.page.locator(checkbox_xpath).first
+    #     cb.wait_for(state="attached", timeout=1000)
+    #     cb.scroll_into_view_if_needed()
+
+    #     # Use JavaScript to check the checkbox and trigger events
+    #     self.page.evaluate(
+    #         """
+    #         ({ selector }) => {
+    #             const el = document.querySelector(selector);
+    #             if (!el) throw 'Checkbox not found';
                 
-                el.checked = true;
-                el.dispatchEvent(new Event('change', { bubbles: true }));
-                el.dispatchEvent(new Event('click', { bubbles: true }));
-            }
-            """,
-            {"selector": checkbox_xpath},
-        )
+    #             el.checked = true;
+    #             el.dispatchEvent(new Event('change', { bubbles: true }));
+    #             el.dispatchEvent(new Event('click', { bubbles: true }));
+    #         }
+    #         """,
+    #         {"selector": checkbox_xpath},
+    #     )
         
-        self.page.wait_for_timeout(5000)
+    #     self.page.wait_for_timeout(5000)
         
-        # Verify checkbox is checked
-        expect(cb).to_be_checked()
+    #     # Verify checkbox is checked
+    #     expect(cb).to_be_checked()
 
-        # Optional: if UI uses "selected" class on card, assert it too
-        if card_xpath:
-            card = self.page.locator(card_xpath).first
-            expect(card).to_have_class(re.compile(r".*\bselected\b.*"))
+    #     # Optional: if UI uses "selected" class on card, assert it too
+    #     if card_xpath:
+    #         card = self.page.locator(card_xpath).first
+    #         expect(card).to_have_class(re.compile(r".*\bselected\b.*"))
 
-    def select_both_courses(self):
-        # Click FHT course card
-        fht_card = self.page.locator(self.Select_FHT_Course)
-        fht_card.check(force=True)
-        expect(fht_card).to_be_checked()
-        self.page.wait_for_timeout(1000)
-        
-        # Click FMT course card
-        fmt_card = self.page.locator(self.Select_FMT_Course)
-        fmt_card.check(force=True)
-        expect(fmt_card).to_be_checked()
-        self.page.wait_for_timeout(1000)
+    # def select_both_courses(self):
+    #     self._check_course(self.FHT_Checkbox, self.Select_FHT_Course)
+    #     self.page.wait_for_timeout(500)
 
-    def select_fht_course_quantity(self, quantity):
-        self._set_quantity(self.FHT_Course_quantity, quantity)
+    #     self._check_course(self.FMT_Checkbox, self.Select_FMT_Course)
+    #     self.page.wait_for_timeout(500)
 
-    def select_fmt_course_quantity(self, quantity):
-        self._set_quantity(self.FMT_Course_quantity, quantity)
+    # def select_fht_course_quantity(self, quantity):
+    #     self._set_quantity(self.FHT_Course_quantity, quantity)
+
+    # def select_fmt_course_quantity(self, quantity):
+    #     self._set_quantity(self.FMT_Course_quantity, quantity)
  
-    def _set_quantity(self, input_selector, quantity):
-        qty = str(int(quantity))
+    # def _set_quantity(self, input_selector, quantity):
+    #     qty = str(int(quantity))
 
-        # Wait until quantity input is rendered AFTER Buy Now
-        self.page.wait_for_selector(input_selector, timeout=15000)
+    #     # Wait until quantity input is rendered AFTER Buy Now
+    #     self.page.wait_for_selector(input_selector, timeout=15000)
 
-        # 🔥 XPath-safe JS execution
-        self.page.evaluate(
-            """
-            ({ xpath, value }) => {
-                const el = document
-                    .evaluate(xpath.replace('xpath=', ''), document, null,
-                            XPathResult.FIRST_ORDERED_NODE_TYPE, null)
-                    .singleNodeValue;
+    #     # 🔥 XPath-safe JS execution
+    #     self.page.evaluate(
+    #         """
+    #         ({ xpath, value }) => {
+    #             const el = document
+    #                 .evaluate(xpath.replace('xpath=', ''), document, null,
+    #                         XPathResult.FIRST_ORDERED_NODE_TYPE, null)
+    #                 .singleNodeValue;
 
-                if (!el) throw 'Quantity input not found';
+    #             if (!el) throw 'Quantity input not found';
 
-                el.removeAttribute('readonly');
-                el.value = value;
+    #             el.removeAttribute('readonly');
+    #             el.value = value;
 
-                el.dispatchEvent(new Event('input', { bubbles: true }));
-                el.dispatchEvent(new Event('change', { bubbles: true }));
-            }
-            """,
-            {"xpath": input_selector, "value": qty},
-        )
+    #             el.dispatchEvent(new Event('input', { bubbles: true }));
+    #             el.dispatchEvent(new Event('change', { bubbles: true }));
+    #         }
+    #         """,
+    #         {"xpath": input_selector, "value": qty},
+    #     )
 
-        self.page.wait_for_timeout(500)
+    #     self.page.wait_for_timeout(500)
+
+    # def click_buy_now(self):
+    #     locator = self.page.locator(self.Buy_now_btn)
+    #     try:
+    #         locator.click()
+    #     except Exception:
+    #         # If button is present but disabled, try enabling via JS then force click
+    #         try:
+    #             self.page.eval_on_selector(self.Buy_now_btn, "el => { el.removeAttribute('disabled'); el.classList.remove('disabled'); }")
+    #             locator.click(force=True)
+    #         except Exception:
+    #             # fallback: force click directly
+    #             locator.click(force=True)
+    #     self.wait_for_network()
+    #     self.page.wait_for_timeout(5000)
+
+    def click_fht_course_quantity(self):
+        self.page.locator(self.FHT_Course_quantity).click()
+        self.wait_for_network()
+        self.page.wait_for_timeout(300)
+
+    def click_fmt_course_quantity(self):
+        self.page.locator(self.FMT_Course_quantity).click()
+        self.wait_for_network()
+        self.page.wait_for_timeout(300)
 
     def click_buy_now(self):
-        locator = self.page.locator(self.Buy_now_btn)
-        try:
-            locator.click()
-        except Exception:
-            # If button is present but disabled, try enabling via JS then force click
-            try:
-                self.page.eval_on_selector(self.Buy_now_btn, "el => { el.removeAttribute('disabled'); el.classList.remove('disabled'); }")
-                locator.click(force=True)
-            except Exception:
-                # fallback: force click directly
-                locator.click(force=True)
+        self.page.locator(self.Buy_now_btn).click()
         self.wait_for_network()
+        self.page.wait_for_timeout(500)
+
+    # Role
+        self.select_user_by_course(self.Assign_FHT_user, "John Doe")
+        self.page.wait_for_timeout(500)
+
+        self.select_user_by_course(self.Assign_FMT_user, "John Doe")
         self.page.wait_for_timeout(500)
 
     def click_complete_purchase(self):
