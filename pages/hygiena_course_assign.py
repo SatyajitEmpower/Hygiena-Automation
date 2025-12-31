@@ -4,6 +4,7 @@ from datetime import datetime
 from playwright.sync_api import expect
 from pages.base_page import BasePage
 import time
+from config.config import config
 
 class CourseAssign(BasePage):
     """Playwright Page Object for course purchase + user assignment (DevExtreme)."""
@@ -22,9 +23,6 @@ class CourseAssign(BasePage):
     # Prefer input selectors; fallbacks will be tried in code if these are not present
     FHT_Course_quantity = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[2]/div/div[1]/div[2]/div[3]/div[2]/div/dx-number-box/div/div[2]/div[2]/div[1]"
     FMT_Course_quantity = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[2]/div/div[2]/div[2]/div[3]/div[2]/div/dx-number-box/div/div[2]/div[2]/div[1]/div"
-    # Spinner controls (DevExtreme numberbox spin up icon)
-    # FHT_Course_spin = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[2]/div/div[1]/div[2]/div[3]/div[2]/div/dx-number-box/div/div[2]/button"
-    # FMT_Course_spin = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[2]/div/div[1]/div[2]/div[3]/div[2]/div/dx-number-box/div/div[2]/button"
     Buy_now_btn = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[3]/button"
     Complete_purchase_btn = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[3]/button/span"
 
@@ -39,7 +37,7 @@ class CourseAssign(BasePage):
     Card_holder_name_input = "#billingName"
     Country_name_input = "#billingCountry"
     Zip_code_input = "#billingPostalCode"
-    Pay_btn = "xpath=//*[@id='payment-form']//button"
+    Pay_btn = "xpath=//*[@id='payment-form']/div/div/div/div[3]/div/div[2]/div/button"
 
     DX_POPUP_ITEMS = ".dx-overlay-wrapper .dx-list-item"
 
@@ -52,6 +50,7 @@ class CourseAssign(BasePage):
         dropdown = self.page.locator(locator)
         dropdown.select_option(label=text)
         time.sleep(1)
+        
 
     # ---------- NAVIGATION ----------
     def click_elearning(self):
@@ -205,11 +204,12 @@ class CourseAssign(BasePage):
         self.page.wait_for_timeout(500)
 
     # Role
-        self.select_user_by_course(self.Assign_FHT_user, "John Doe")
-        self.page.wait_for_timeout(500)
-
-        self.select_user_by_course(self.Assign_FMT_user, "John Doe")
-        self.page.wait_for_timeout(500)
+    # def assign_users_to_courses(self):
+    #     self.select_user_by_course(self.Assign_FHT_user, "John Doe")
+    #     self.page.wait_for_timeout(500)
+    # def assign_fmt_user(self):
+    #     self.select_user_by_course(self.Assign_FMT_user, "John Doe")
+    #     self.page.wait_for_timeout(500)
 
     def click_complete_purchase(self):
         self.page.locator(self.Complete_purchase_btn).click()
@@ -217,25 +217,17 @@ class CourseAssign(BasePage):
         self.page.wait_for_timeout(500)
 
     # ---------- CARD DETAILS ----------
-    def enter_card_details(
-        self,
-        card_number,
-        expiry_date,
-        cvc,
-        card_holder_name,
-        country_name,
-        zip_code,
-    ):
-        self.page.fill(self.Card_number_input, card_number)
-        self.page.fill(self.Expiry_date_input, expiry_date)
-        self.page.fill(self.CVC_input, cvc)
-        self.page.fill(self.Card_holder_name_input, card_holder_name)
-        self.page.select_option(self.Country_name_input, label=country_name)
-        self.page.fill(self.Zip_code_input, zip_code)
-
-    def click_pay(self):
-        self.page.locator(self.Pay_btn).click()
-
+    def enter_card_details(self):
+        self.page.fill(self.Card_number_input, config.Card_number)
+        self.page.fill(self.Expiry_date_input, config.Expiry_date)
+        self.page.fill(self.CVC_input, config.CVC)
+        self.page.fill(self.Card_holder_name_input, config.Card_holder_name)
+        self.page.select_option(self.Country_name_input, label=config.Country_name)
+        self.page.fill(self.Zip_code_input, config.Zip_code)
+        self.page.wait_for_timeout(5000)
+        Pay_button=self.page.locator(self.Pay_btn)
+        Pay_button.click()
+        self.page.wait_for_timeout(5000)
     # ---------- ASSIGN USERS (DevExtreme) ----------
     def assign_fht_user(self, username):
         self._select_dx_user(self.Assign_FHT_user, username)
