@@ -47,3 +47,7 @@ class config:
 
     OwnerUser_username = "Sambhu02"
     OwnerUser_password = "Test@123"
+
+    # Forgot Password variables
+    ForgotPassword_url = f"{BASE_URL}/ForgotPassword"
+    ForgotEmail = "dec12@yopmail.com"

@@ -7,7 +7,7 @@ import time
 from config.config import config
 
 class CourseAssign(BasePage):
-    """Playwright Page Object for course purchase + user assignment (DevExtreme)."""
+# Playwright Page Object for course purchase + user assignment (DevExtreme).
 
     # ---------- LOCATORS ----------
     ELearning_btn = "#elearningSpan"
