@@ -228,6 +228,7 @@ class CourseAssign(BasePage):
         Pay_button=self.page.locator(self.Pay_btn)
         Pay_button.click()
         self.page.wait_for_timeout(5000)
+
     # ---------- ASSIGN USERS (DevExtreme) ----------
     def assign_fht_user(self, username):
         self._select_dx_user(self.Assign_FHT_user, username)
@@ -238,6 +239,7 @@ class CourseAssign(BasePage):
     def _select_dx_user(self, input_selector, text):
         inp = self.page.locator(input_selector)
         inp.click()
+
         # Try to type into the input; if it's readonly this may fail, so ignore errors
         try:
             inp.fill(text, timeout=1000)
@@ -251,6 +253,7 @@ class CourseAssign(BasePage):
             pass
 
         items = self.page.locator(self.DX_POPUP_ITEMS)
+        
         # wait for at least one item to appear
         try:
             items.first.wait_for(timeout=5000)

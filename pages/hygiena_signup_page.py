@@ -129,6 +129,7 @@ class SignupPage:
         # reCAPTCHA
         self.click_recaptcha_checkbox()
         self.wait_for_recaptcha_solved(captcha_timeout)
+        self.page.wait_for_timeout(2000)
 
         # Submit
         self.page.click(self.CreateAccountBtn)

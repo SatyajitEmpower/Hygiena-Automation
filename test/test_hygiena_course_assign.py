@@ -25,11 +25,11 @@ def test_user_create(page):
 
     # assign users and due dates before going to payment (avoids footer overlay)
     user_page.assign_fht_user("John Doe")
-    user_page.set_due_date_fht("2024-12-31")
+    user_page.set_due_date_fht("2026-02-28")
     user_page.wait_for_network()
     time.sleep(1)
     user_page.assign_fmt_user("John Doe")
-    user_page.set_due_date_fmt("2024-12-31")
+    user_page.set_due_date_fmt("2026-02-28")
     user_page.wait_for_network()
     time.sleep(1)
 
