@@ -21,16 +21,17 @@ class CourseAssign(BasePage):
     
     # ---------- Select Course Quantity (input + spinner fallbacks) ----------
     # Prefer input selectors; fallbacks will be tried in code if these are not present
-    FHT_Course_quantity = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[2]/div/div[1]/div[2]/div[3]/div[2]/div/dx-number-box/div/div[2]/div[2]/div[1]"
-    FMT_Course_quantity = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[2]/div/div[2]/div[2]/div[3]/div[2]/div/dx-number-box/div/div[2]/div[2]/div[1]/div"
+    FHT_Course_quantity = "xpath=/html/body/platform-root/layout-main-layout/div/div/div[2]/div/div/app-empower/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/div[2]/div[2]/div/dx-number-box/div/div[2]/div[2]/div[1]/div"
+    FMT_Course_quantity = "xpath=/html/body/platform-root/layout-main-layout/div/div/div[2]/div/div/app-empower/div/div/div[2]/div[2]/div/div[1]/div[2]/div[2]/div[2]/div[2]/div/dx-number-box/div/div[2]/div[2]/div[1]/div"
     Buy_now_btn = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[3]/button"
-    Complete_purchase_btn = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[3]/button/span"
-
-    Assign_FHT_user = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[2]/table/tbody/tr[1]/td[2]/dx-select-box/div[1]/div/div[1]/input"
-    Assign_FMT_user = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[2]/table/tbody/tr[2]/td[2]/dx-select-box/div[1]/div/div[1]/input"
-
-    Due_date_FHT = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[2]/table/tbody/tr[1]/td[3]//input"
-    Due_date_FMT = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div[2]/table/tbody/tr[2]/td[3]//input"
+    Assign_FMT_user = "xpath=/html/body/platform-root/layout-main-layout/div/div/div[2]/div/div/app-empower/div/div/div[3]/div[2]/table/tbody/tr[1]/td[2]/dx-select-box/div/div/div[1]/input"
+    Assign_FHT_user = "xpath=/html/body/platform-root/layout-main-layout/div/div/div[2]/div/div/app-empower/div/div/div[3]/div[2]/table/tbody/tr[2]/td[2]/dx-select-box/div/div/div[1]/input"
+    
+    Due_date_FHT = "xpath=/html/body/platform-root/layout-main-layout/div/div/div[2]/div/div/app-empower/div/div/div[3]/div[2]/table/tbody/tr[2]/td[3]/input"
+    Due_date_FMT = "xpath=/html/body/platform-root/layout-main-layout/div/div/div[2]/div/div/app-empower/div/div/div[3]/div[2]/table/tbody/tr[1]/td[3]/input"
+    
+    Complete_purchase_btn = "xpath=/html/body/platform-root/layout-main-layout/div/div/div[2]/div/div/app-empower/div/div/div[3]/div[3]/button/span"
+    
     Card_number_input = "#cardNumber"
     Expiry_date_input = "#cardExpiry"
     CVC_input = "#cardCvc"
@@ -207,7 +208,7 @@ class CourseAssign(BasePage):
     # def assign_users_to_courses(self):
     #     self.select_user_by_course(self.Assign_FHT_user, "John Doe")
     #     self.page.wait_for_timeout(500)
-    # def assign_fmt_user(self):
+    #def assign_fmt_user(self):
     #     self.select_user_by_course(self.Assign_FMT_user, "John Doe")
     #     self.page.wait_for_timeout(500)
 

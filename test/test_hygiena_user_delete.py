@@ -12,5 +12,5 @@ def test_user_remove(page):
     user_page = UesrRemove(page)
     user_page.click_user_management()
     user_page.click_user_delete_btn()
-    #user_page.click_confirm_delete_btn()
-    # user_page.click_cancel_delete_btn()
+    user_page.click_confirm_delete_btn()
+    user_page.click_cancel_delete_btn()

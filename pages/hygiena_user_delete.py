@@ -7,7 +7,7 @@ class UesrRemove(BasePage):
 
     # ---------- LOCATORS ----------
     Usermanagement_btn = "xpath=//*[@id='userManagement']/div/img"
-    Delete_btn = "xpath=//*[@id='userMgmBtnDeleteUser']"
+    Delete_btn = "xpath=/html/body/platform-root/layout-main-layout/div/div/div[2]/div/div/platform-user-management/div/platform-user-management-user-grid/div/div/div[2]/table/tbody/tr[1]/td[9]/button"
     Confirnm_delete_btn = "xpath=/html/body/div/div/div/div[3]/div/div[2]/div[1]/div/div/div"
     Cancel_delete_btn = "xpath=/html/body/div/div/div/div[3]/div/div[2]/div[2]/div/div/div"
 
@@ -43,14 +43,14 @@ class UesrRemove(BasePage):
 
     # ---------- Don't click user delete confirm btn ----------
 
-    # def click_cancel_delete_btn(self):
-    #     cancel_delete_btn = self.page.locator(self.Cancel_delete_btn).first
-    #     cancel_delete_btn.scroll_into_view_if_needed()
-    #     cancel_delete_btn.wait_for(state="visible", timeout=10000)
-    #     cancel_delete_btn.click()
-    #     self.wait_for_network()
-    #     self.page.wait_for_timeout(5000)
+    def click_cancel_delete_btn(self):
+         cancel_delete_btn = self.page.locator(self.Cancel_delete_btn).first
+         cancel_delete_btn.scroll_into_view_if_needed()
+         cancel_delete_btn.wait_for(state="visible", timeout=10000)
+         cancel_delete_btn.click()
+         self.wait_for_network()
+         self.page.wait_for_timeout(5000)
 
         # Print confirmation after successful completion
-        print("User deletion process initiated successfully.")
+    print("User deletion process initiated successfully.")
 

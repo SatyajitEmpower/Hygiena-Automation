@@ -6,6 +6,8 @@ from config.config import config
 def browser():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=config.headless)
+    #   browser = p.firefox.launch(headless=config.headless)
+    #   browser = p.webkit.launch(headless=config.headless)
         yield browser
         browser.close()
 

@@ -8,7 +8,7 @@ class OwnerUserCourseStart(BasePage):
     # ---------- LOCATORS ----------
     ELearning_btn = "#elearningSpan"
     Course_start_btn = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div/app-courses-grid/div/div[2]/table/tbody/tr[1]/td[9]/button"
-    # Course_resume_btn = "button:has-text('Resume')"
+    Course_resume_btn = "button:has-text('Resume')"
 
     def __init__(self, page: Page):
         super().__init__(page)

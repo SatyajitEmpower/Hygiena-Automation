@@ -8,8 +8,9 @@ class CourseStart(BasePage):
     # ---------- LOCATORS ----------
     ELearning_btn = "#elearningSpan"
     Course_btn = "#tab-my-courses"
-    Course_start_btn = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div/app-courses-grid/div/div[2]/table/tbody/tr[1]/td[9]/button"
+    Start_btn = "xpath=//*[@id='homeView']/div/app-empower/div/div/div[2]/div/app-courses-grid/div/div[2]/table/tbody/tr[1]/td[9]/button"
     Course_resume_btn = "button:has-text('Resume')"
+    Start_Course_btn = "xpath=/html/body/div/div[5]/main/div/div/header/div/div[1]/div/a/span"
 
     def __init__(self, page: Page):
         super().__init__(page)
@@ -30,10 +31,10 @@ class CourseStart(BasePage):
 
     # ---------- Click Start or Resume Course button ----------
 
-    def click_start_course(self):
+    def click_start(self):
         # Try to click Start button first
         try:
-            start_btn = self.page.locator(self.Course_start_btn).first
+            start_btn = self.page.locator(self.Start_btn).first
             start_btn.scroll_into_view_if_needed()
             start_btn.wait_for(state="visible", timeout=5000)
             start_btn.click()
@@ -48,6 +49,12 @@ class CourseStart(BasePage):
 
         # Print confirmation after successful completion
         print("Course started or resumed successfully.")
+        self.page.wait_for_timeout(30000)
+
+    def click_start_course(self):
+        self.page.locator(self.Start_Course_btn).click()
+        self.wait_for_network()
+        self.page.wait_for_timeout(3000)
 
     
         

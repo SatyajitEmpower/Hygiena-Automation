@@ -12,4 +12,5 @@ def test_user_create(page):
     user_page = CourseStart(page)
     user_page.click_elearning()
     user_page.click_course()
+    user_page.click_start()
     user_page.click_start_course()
